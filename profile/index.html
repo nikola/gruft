@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859" />		
+		<meta name="Content-Language" content="en" />
+		<title></title>
+        <script src="../lib/gruft-common.js" language="JavaScript" type="text/javascript"></script>
+        <script src="../lib/gruft-profile.js" language="JavaScript" type="text/javascript"></script>
+		<script src="../lib/gruft-md5.js" language="JavaScript" type="text/javascript"></script>		
+        <script src="../lib/gruft-sha1.js" language="JavaScript" type="text/javascript"></script>
+        <script src="../lib/gruft-sha256.js" language="JavaScript" type="text/javascript"></script>        
+        <script src="../lib/gruft-tiger192.js" language="JavaScript" type="text/javascript"></script>
+
+		<script language="JavaScript" type="text/javascript">
+		    function run() {
+                md5 = new gruft.MD5();
+                md5.resetRates();
+                md5.resetTimes();
+            
+                sha1 = new gruft.SHA1();
+                sha1.resetRates();
+                sha1.resetTimes();
+            
+                sha256 = new gruft.SHA256();
+                sha256.resetRates();
+                sha256.resetTimes();
+            
+                tiger192 = new gruft.TIGER192();
+                tiger192.resetRates();
+                tiger192.resetTimes();
+            
+                gruft.common.profile(document.getElementsByTagName("body").item(0), md5, sha1, sha256, tiger192);                
+            }
+		</script>
+	</head>
+
+	<body onload="run()">
+ 	    
+	</body>
+
+</html>
