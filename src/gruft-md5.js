@@ -1,5 +1,5 @@
 /*!
- * gruft-md5 module Version 0.1.0-20110313 
+ * gruft-md5 module Version 0.1.0-20110316
  * Copyright 2011, Nikola Klaric
  *
  * https://github.com/nikola/gruft

@@ -1,5 +1,5 @@
 /*!
- * gruft-sha1 module Version 0.1.0-20110313 
+ * gruft-sha1 module Version 0.1.0-20110316
  * Copyright 2011, Nikola Klaric
  *
  * https://github.com/nikola/gruft
@@ -279,7 +279,7 @@ gruft.__SHA1__ = function () { }; gruft.__SHA1__.prototype = {
                             
             g = w36 ^ w31 ^ w25 ^ w23; w39 = g << 1 | g >>> 31;
             f = 0x6ed9eba1 + w39 + e + (a << 5 | a >>> 27) + (b ^ c ^ d);           e = d; d = c; c = b << 30 | b >>> 2; b = a; a = f;
-                            			
+                                        
             g = w37 ^ w32 ^ w26 ^ w24; w40 = g << 1 | g >>> 31;
             f = 0x8f1bbcdc + w40 + e + (a << 5 | a >>> 27) + (b & c | d & (b | c)); e = d; d = c; c = b << 30 | b >>> 2; b = a; a = f;
                             
