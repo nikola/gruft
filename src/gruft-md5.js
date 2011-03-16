@@ -61,7 +61,7 @@ gruft.__MD5__ = function() { }; gruft.__MD5__.prototype = {
         /* Basic. */
         failUnlessEqual(
             digest(""),
-            "d41d8cd98f00b204e9800998ecf8427e0",
+            "d41d8cd98f00b204e9800998ecf8427e",
             error, "(empty string)");
         failUnlessEqual(
             digest(getTestvector("digest-base64")),

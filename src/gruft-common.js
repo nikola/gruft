@@ -22,7 +22,7 @@ var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
 /**
  * Common library functions. 
  */
-gruft.common || ~function (scope, undefined) {
+gruft.common || ~function (undefined) {
 
     var __module__  = "gruft.common",
         __author__  = "Nikola Klaric",
@@ -34,11 +34,11 @@ gruft.common || ~function (scope, undefined) {
      */
     var _exceptions = [
         "InterfaceError" /* Raised when an interface in the gruft.* namespace is used incorrectly. */
+      , "FatalError"     /* Raised when an interface is unable to compute correctly. */
       , "IntegrityError" /* Raised when an expected interface in the gruft.* namespace is not available. */
       , "ModuleError"    /* Raised when an interface in the gruft.* namespace is accessed that is not supported. */  
       , "ArgumentError"  /* Raised when a supplied argument is of wrong type or out of range. */ 
       , "AssertionError" /* Raised when an assertion fails. */
-      , "FatalError"     /* Raised when an interface is unable to compute correctly. */
     ];
 
     /**
@@ -585,4 +585,4 @@ gruft.common || ~function (scope, undefined) {
         }
     }
 
-}(this);
+}();
