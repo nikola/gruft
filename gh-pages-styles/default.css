@@ -1,0 +1,236 @@
+/**
+ * Color schemes
+ * 
+ * green: http://colorschemedesigner.com/#2o5221BsOw0w0
+ * blue: http://colorschemedesigner.com/#3D5221BsOw0w0
+ */
+
+html, body {
+    color: #000;
+    height: 100%;
+    }
+
+html {
+    position: relative;
+    }
+
+body {
+    background-color: #fff;
+    }
+    
+/*
+ * General layout.
+ */
+
+#body, #footer {
+    margin-left: auto; margin-right: auto;
+    width: 1024px;
+    }
+        
+#wrapper-top {
+    min-height: 100%;
+    height: auto !important;
+    margin-bottom: 32px; /* == wrapper-bottom.height */
+    }
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 48px;
+    z-index: 1000;
+    
+    background-color: #c0b080;
+    opacity: 0.9;
+    }
+
+#masthead {
+    margin-left: auto; margin-right: auto;
+    max-width: 1024px;
+    }
+
+#masthead, #footer {
+    padding: 0 8px;
+    }
+
+#body {
+    margin-top: -64px; /* == wrapper-top.margin-bottom +  wrapper-bottom.height */
+    min-height: 512px;
+    }     
+    
+#pad {
+    clear: left;
+    height: 0;
+    }
+
+#wrapper-bottom {
+    background-color: #c4c7cb;
+    height: 28px;
+    border-top: 4px solid #99a19d;
+    min-width: 1024px;
+    overflow: hidden;
+    }
+    
+/*
+ * Fixed elements.
+ */
+
+#masthead, #footer {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    }
+
+#masthead {
+    color: #fff;
+    font-size: 18px;
+    line-height: 48px;
+    }
+    
+#head-version {
+    padding-left: 8px;
+    font-size: 14px;
+    }    
+
+#menu {
+    float: right;
+    font-size: 12px;
+    }
+    
+#menu a, #menu a:link, #menu a:visited {
+    color: #fff;
+    text-decoration: none;
+    }    
+    
+#menu a:hover, #menu a:active {
+    color: #fff;
+    text-decoration: underline;
+    }     
+    
+#content {
+    padding-top: 96px;
+    }    
+    
+#footer {
+    color: #444;
+    font-size: 12px;
+    line-height: 28px;
+    }    
+
+/*
+ * Paragraph elements.
+ */
+
+a[name] {
+    display: block;
+    font: 18px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    border-bottom: 1px solid #c4b4a4;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+    margin-top: 32px;
+    color: #a09060;
+    }
+
+a[name]:before {
+    display: block; 
+    content: ""; 
+    height: 64px; 
+    margin: -64px 0 0; 
+}
+
+p a[href], p a[href]:link, p a[href]:visited {
+    border-bottom: 1px dotted #716f6d;
+    text-decoration: none;
+    color: #444;
+    }
+
+p a[href]:hover, p a[href]:active {
+    border-bottom-style: solid;
+    }
+
+p {
+    font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    margin-bottom: 8px;
+    }
+
+blockquote {
+    background-color: #e0e1e2;
+    border-left:8px solid #b0b1b2;
+    color: #444;
+    margin: 4px 0 14px 0;
+    padding: 6px 0 6px 4px;
+    font: 12px/20px Monaco, "Lucida Console", monospace;
+    }
+
+pre.license { 
+    white-space: pre;
+    margin-top: 24px;
+    font-size: 11px;
+    color: #716f6d;
+    }
+    
+ul { 
+    list-style: none; 
+    }
+    
+li a, li a[href]:link, li a[href]:visited {
+    font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    color: #704030;
+    border-bottom: 1px dotted #716f6d;
+    text-decoration: none;
+    }        
+
+li a[href]:hover, li a[href]:active {
+    border-bottom-style: solid;
+    }
+    
+dt, dd {
+    display: block;
+    padding: 0 8px;
+    font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    }    
+    
+dt {
+    background-color: #eee;
+    }    
+    
+dd {
+    background-color: #ddd;
+    margin-bottom: 12px;
+    }    
+    
+/*
+ * Example styles.
+ */
+
+#hash-input {
+    width: 508px;
+    height: 128px;
+    font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    border: 1px solid #948474;
+    background-color: #f4f4f4;
+    color: #444;
+    resize: none;
+    /* overflow-y: scroll; */
+    margin-top: 12px;
+    padding-left: 4px;
+    }
+
+#hash-outputs {
+    width: 500px;
+    height: 128px;
+    /* background-color: red; */
+    display: inline-block;
+    float: right;
+    margin-top: 12px;
+    
+    }
+
+.hash-output {
+    display: block;
+    }
+
+.hash-output span {
+    display: inline-block;
+    float: right;
+    width: 400px;
+    font-size: 10px;
+    }    

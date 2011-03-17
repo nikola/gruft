@@ -1,0 +1,232 @@
+/* 
+  HTML5 ✰ Boilerplate 
+  
+  credit is left where credit is due.
+  much inspiration was taken from these projects:
+    yui.yahooapis.com/2.8.1/build/base/base.css
+    camendesign.com/design/
+    praegnanz.de/weblog/htmlcssjs-kickstart
+*/
+
+/* 
+  html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+  v1.4 2009-07-27 | Authors: Eric Meyer & Richard Clark
+  html5doctor.com/html-5-reset-stylesheet/
+*/
+
+/*
+ * Slightly adapted, extended, deslacked and cleaned up by Nikola Klaric.
+ */
+
+/*
+ * Always force a scrollbar in non-IE.
+ */ 
+html { 
+    overflow-y: scroll; 
+    }
+
+/*
+ * Normalize dimensions and alignments.
+ */
+html, body, div, span, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        abbr, address, cite, code,
+        del, dfn, em, img, ins, kbd, q, samp,
+        small, strong, sub, sup, var,
+        b, i,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section, summary,
+        time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  }                  
+
+/*
+ * Normalize display mode.
+ */
+article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section { 
+    display: block;
+    }
+
+/*
+ * No default bullet points.
+ */
+nav ul { 
+    list-style: none; 
+    }
+
+/*
+ * No default quotes.
+ */
+blockquote, q { 
+    quotes: none; 
+    }
+blockquote:before, blockquote:after,
+        q:before, q:after { 
+    content: ''; 
+    content: none; 
+    }
+
+/*
+ * Normalize link dimensions and alignment.
+ */
+a { 
+    margin: 0; 
+    padding: 0; 
+    font-size: 100%; 
+    vertical-align: baseline; 
+    background: transparent; 
+    }
+
+/*
+ * Indicate help elements.
+ */
+abbr[title], dfn[title] { 
+    border-bottom: 1px dotted; 
+    cursor: help; 
+    }
+
+/*
+ * Normalize table layout.
+ * 
+ * Note: 
+ * 
+ * Tables still need cellspacing="0" in the markup.
+ */
+table { 
+    border-collapse: separate; 
+    border-spacing: 0; 
+    }
+
+/*
+ * Normalize table cell alignments.
+ */
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    }
+table, td, th {
+    vertical-align: middle;
+    }
+input, select { 
+    vertical-align: middle; 
+    }
+ 
+/* 
+ * No dotted bounding box around links.
+ * 
+ * people.opera.com/patrickl/experiments/keyboard/test 
+ */
+a:hover, a:active { 
+    outline: none; 
+    }
+
+/*
+ * Remove margins for navigation lists.
+ */
+nav ul, nav li { 
+    margin: 0; 
+    } 
+
+/*
+ * Normalize word wrap behavior.
+ */
+pre { 
+    white-space: pre;           /* CSS2 */
+    white-space: pre-wrap;      /* css 2.1 and 3 */
+    white-space: pre-line;      /* CSS 3 (and 2.1 as well, actually) */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* Internet Explorer 5.5+ */
+}
+ 
+/*
+ * No default scrollbars in IE.
+ * 
+ * www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/
+ */
+textarea { 
+    /* overflow: auto; */ 
+    } 
+
+/*
+ * Align checkboxes, radios, text inputs with their label.
+ * 
+ * by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css
+ */
+input[type=radio] { 
+    vertical-align: text-bottom; 
+    }
+input[type=checkbox] { 
+    vertical-align: bottom; 
+    }
+
+/* 
+ * Assign hand cursor to all clickable elements.
+ */
+a[href], label[for], input[type=button], input[type=submit], input[type=image], select, button { 
+    cursor: pointer; 
+    }
+
+/*
+ * Webkit browsers add a 2px margin outside the chrome of form elements.
+ */  
+button, input, select, textarea { 
+    margin: 0; 
+    }
+
+/* Fix padding in MSIE. 
+ * 
+ * www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
+ */
+button {  
+    width: auto; 
+    overflow: visible; 
+    }
+    
+/* Normalize button layout in Gecko. */
+button::-moz-focus-inner, input::-moz-focus-inner { 
+    padding: 0;
+    border: 0; 
+    }        
+ 
+/* Color schemes for selections in Gecko. */
+::-moz-selection {
+    color: white; 
+    background-color: black;
+    text-shadow: none;
+    }
+
+/* Color schemes for selections in Webkit. */
+::selection {
+    color: white; 
+    background-color: black;
+    text-shadow: none;
+    }   
+    
+/* Improve quality of scaled images in Internet Explorer. 
+ * 
+ * code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
+ */    
+img {
+    -ms-interpolation-mode: bicubic;
+    }    
+
+:focus {
+    outline: 0;
+    }
+
+a img {
+    border: none;
+    }
+    
