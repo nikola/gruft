@@ -1,88 +1,422 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>nikola/gruft @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #4f7f82;
-		  font-family: "helvetica"; 
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #b0807d; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #b0807d; }
-    h3 { text-align: center; color: #b0807d; }
-    a { color: #b0807d; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
-
-<body>
-  <a href="http://github.com/nikola/gruft"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-  
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/nikola/gruft/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/nikola/gruft/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-      
-    <h1><a href="http://github.com/nikola/gruft">gruft</a> 
-      <span class="small">by <a href="http://github.com/nikola">nikola</a></small></h1>
-
-    <div class="description">
-      The gruft library is a fast implementation of several cryptographic functions in JavaScript.
-    </div>
-
-    <h2>Authors</h2>
-<p>Nikola Klaric
-<br/>
-<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/nikola/gruft/zipball/master">zip</a> or
-      <a href="http://github.com/nikola/gruft/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/nikola/gruft</pre>
-    </p>
-      
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/nikola/gruft">nikola/gruft</a>
-    </div>
+<!doctype html>  
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        
+        <title>gruft library 0.1.0</title>
+        
+        <meta name="description" content="The gruft library is a fast implementation of several cryptographic hash functions in pure JavaScript: MD5, SHA-1, SHA-256, and TIGER/192. All major browsers supported.">
+        <meta name="author" content="Nikola Klaric">
+        
+        <link rel="stylesheet" href="gh-pages-styles/reset.css">
+        <link rel="stylesheet" href="gh-pages-styles/default.css">
+    </head>
     
-  </div>
+    <body>
+        <div id="wrapper-top">
+            <div id="header">
+                <div id="masthead">
+                    gruft<span id="head-version">0.1.0</span><span id="menu"><a href="#about">About</a> | <a href="#demo">Demo</a> | <a href="#usage">Usage</a> | <a href="#license">License</a> | <a href="#download">Download</a></span>
+                </div>
+            </div>
+            
+            <div id="body">
+                <div id="content">
+                    <a name="about">About</a>
+                    <p>
+                        The gruft library is a fast implementation of several cryptographic hash functions in pure JavaScript: 
+                        MD5, SHA-1, SHA-256, and TIGER/192. The implementation can produce digests in various formats:
+                        hex strings, Base64-encoded (also as a <a href="http://en.wikipedia.org/wiki/Base_64#URL_applications">URL-safe variant</a>), 
+                        or as byte-sequences (i.e. JavaScript Arrays).
+                    </p>
+                    <p>
+                        Unlike many other implementations, any hash function in the gruft library will always perform
+                        a self-test against known test-vectors upon instantiation.
+                    </p>
+                    <br>
+                    <p>
+                        Author: <a href="https://github.com/nikola">Nikola Klaric (github.com/nikola)</a>
+                    </p>
+                    <p>
+                        Source: <a href="https://github.com/nikola/gruft">https://github.com/nikola/gruft</a>
+                    </p>
+                    <p>
+                        Latest release version: 0.1.0-20110316
+                    </p>
+                    <p>
+                        License: <a href="#license">GNU Lesser General Public License (LGPL) Version 3</a>
+                    </p>
+                    <p>
+                        Should work with any ECMA-262-compliant JavaScript engine 
+                        (including <a href="http://nodejs.org/">Node.js</a>).
+                    </p>
+                    
+                    <a name="demo">Demo</a>
+                    <p>
+                        Type or paste any text into the textarea below, and the hash functions will compute
+                        automatically when the textarea loses focus.
+                    </p>
+                    <p>
+                        <textarea id="hash-input"></textarea>
+                        <span id="hash-outputs">
+                            <span class="hash-output">MD5<span id="hash-output-md5"></span></span>
+                            <span class="hash-output">SHA-1<span id="hash-output-sha1"></span></span>
+                            <span class="hash-output">SHA-256<span id="hash-output-sha256"></span></span>
+                            <span class="hash-output">TIGER/192<span id="hash-output-tiger192"></span></span>
+                        </span>
+                    </p>
+                    <p>
+                        Upon loading this page you'll already see hex digests computed on the right side.
+                        This is correct behavior: Any of these hash functions will produce a digest even
+                        for an empty string, i.e. for an empty textarea.
+                    </p>
+                    <p>
+                        Also, please note that the current implementation will clip the input string to
+                        1-byte-sized characters, even though the default charset of JavaScript assumes
+                        UTF-16, i.e. up to 16-bit wide codepoints. Depending on your input string and locale,
+                        the digest might not match other non-JavaScript implementations that implicitly convert
+                        UTF-16 to UTF-8 before hashing. A future gruft version will provide helper
+                        functions for conversion between UTF-16 and UTF-8 as well.
+                    </p>
+                    
+                    <a name="usage">Usage</a>
+                    
+                    <p>
+                        Step 1. Include the gruft-common module in your page, e.g.
+                    </p>
+                    <blockquote>
+                        &lt;script src=&quot;path/to/javascript/files/gruft-common.js&quot;&gt;&lt;/script&gt;
+                    </blockquote>
+                    <p>
+                        Step 2. Include the hash function module(s) that you require in your page, e.g.
+                    </p>
+                    <blockquote>
+                        &lt;script src=&quot;path/to/javascript/files/gruft-md5.js&quot;&gt;&lt;/script&gt;<br>
+                        &lt;script src=&quot;path/to/javascript/files/gruft-sha256.js&quot;&gt;&lt;/script&gt;
+                    </blockquote>
+                    <p>
+                        Step 3a. In your JavaScript code, instantiate the hash functions that you intend to use, e.g.
+                    </p>
+                    <blockquote>
+                        var md5 = new gruft.MD5();<br>
+                        var sha256 = new gruft.SHA256();
+                    </blockquote>
+                    <p>
+                        Step 3b. Call the digest()-function on the instance with your input string, e.g.
+                    </p>
+                    <blockquote>
+                        md5.digest(&quot;The quick brown fox jumps over the lazy dog&quot;)
+                    </blockquote>
+                    <p>
+                        That is all.
+                    </p>
+                    <p>
+                        Upon instantiation (as shown in 3a), the respective hash function will perform
+                        a self-test with about 12 different variations of discrete test-vectors.
+                        If this self-test fails, the hash function will raise an error telling you
+                        which exact test-vector failed. Subsequent instantiations of the same hash function
+                        on your page will raise a fatal error to prevent further usage of the respective 
+                        module.
+                    </p>
+                    <p>
+                        The digest()-function expects at least one argument. Calling
+                        the function without an argument is not the same as passing an empty string.
+                        You can also pass additional options to control the output format of the hash
+                        function:
+                    </p>
+                    <dl>
+                        <dt>message</dt>
+                        <dd>
+                            The input string to digest. You can pass the input string as the first argument 
+                            (and additional options as the second), or pack the input string into the options 
+                            and pass them as a single argument.
+                        </dd>
+                        <dt>format</dt>
+                        <dd>
+                            The hash format. 
+                            Available options are: &quot;hex&quot; (the default), &quot;base64&quot; (Base64-encoded), 
+                            &quot;base64_safe&quot; (a URL-safe variant), &quot;byteseq&quot; (a JavaScript Array).
+                        </dd>
+                        <dt>order</dt>
+                        <dd>
+                            The byte-order of the hash. The default order is, respectively: 
+                            little-endian (for MD5, TIGER/192), big-endian (for SHA-1, SHA-256).
+                            You can choose a different byte-order by passing &quot;little&quot; or &quot;big&quot;
+                            in this field.
+                        </dd>
+                    </dl>
+                    <p>Usage examples (taken from the respective self-test code):</p>
+                    <blockquote>&gt; var md5 = new gruft.MD5();<br>
+                        &gt; md5.digest("")<br>
+                        &nbsp;&nbsp;"d41d8cd98f00b204e9800998ecf8427e"<br>
+                        <br>
+                        &gt; md5.digest({message:"MD5", format:"byteseq"})<br>
+                        &nbsp;&nbsp;[0x7f, 0x13, 0x8a, 0x09, 0x16, 0x9b, 0x25, 0x0e, 0x9d, 0xcb, 0x37, 0x81, 0x40, 0x90, 0x73, 0x78]<br>
+                        <br>
+                        &gt; md5.digest({message:"ABCDEFGHIJ"})<br>
+                        &nbsp;&nbsp;"e86410fa2d6e2634fd8ac5f4b3afe7f3"<br>
+                        <br>
+                        &gt; md5.digest({message:"ABCDEFGHIJ", format:"base64"})<br>
+                        &nbsp;&nbsp;"6GQQ+i1uJjT9isX0s6/n8w=="<br>
+                        <br>
+                        &gt; md5.digest("ABCDEFGHIJ", {format:"base64_safe"})<br>
+                        &nbsp;&nbsp;"6GQQ-i1uJjT9isX0s6_n8w"<br>
+                        <br>
+                        &gt; var tiger = new gruft.TIGER192();<br>
+                        &gt; tiger.digest("Tiger", {order:"big"})<br>
+                        &nbsp;&nbsp;"9f00f599072300dd276abb38c8eb6dec37790c116f9d2bdf"
+                    </blockquote>
+                    
+                    <a name="license">License</a>
+                    <p>
+                        The gruft library is licensed under the <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License (LGPL) Version 3</a>.
+                    </p>
+                    <p>
+                        If you are using this plugin for commercial purposes, please consider
+                        purchasing a commercial license. Send a short message to user &apos;nikola&apos; 
+                        <a href="https://github.com/inbox/new">at GitHub</a>
+                        and I'll get back to you as soon as possible.
+                    </p>
+                    <p>
+<pre class="license">                   GNU LESSER GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
 
-  <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-79710-6");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-</body>
+ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+
+  This version of the GNU Lesser General Public License incorporates
+the terms and conditions of version 3 of the GNU General Public
+License, supplemented by the additional permissions listed below.
+
+  0. Additional Definitions.
+
+  As used herein, &quot;this License&quot; refers to version 3 of the GNU Lesser
+General Public License, and the &quot;GNU GPL&quot; refers to version 3 of the GNU
+General Public License.
+
+  &quot;The Library&quot; refers to a covered work governed by this License,
+other than an Application or a Combined Work as defined below.
+
+  An &quot;Application&quot; is any work that makes use of an interface provided
+by the Library, but which is not otherwise based on the Library.
+Defining a subclass of a class defined by the Library is deemed a mode
+of using an interface provided by the Library.
+
+  A &quot;Combined Work&quot; is a work produced by combining or linking an
+Application with the Library.  The particular version of the Library
+with which the Combined Work was made is also called the "Linked
+Version".
+
+  The &quot;Minimal Corresponding Source&quot; for a Combined Work means the
+Corresponding Source for the Combined Work, excluding any source code
+for portions of the Combined Work that, considered in isolation, are
+based on the Application, and not on the Linked Version.
+
+  The &quot;Corresponding Application Code&quot; for a Combined Work means the
+object code and/or source code for the Application, including any data
+and utility programs needed for reproducing the Combined Work from the
+Application, but excluding the System Libraries of the Combined Work.
+
+  1. Exception to Section 3 of the GNU GPL.
+
+  You may convey a covered work under sections 3 and 4 of this License
+without being bound by section 3 of the GNU GPL.
+
+  2. Conveying Modified Versions.
+
+  If you modify a copy of the Library, and, in your modifications, a
+facility refers to a function or data to be supplied by an Application
+that uses the facility (other than as an argument passed when the
+facility is invoked), then you may convey a copy of the modified
+version:
+
+   a) under this License, provided that you make a good faith effort to
+   ensure that, in the event an Application does not supply the
+   function or data, the facility still operates, and performs
+   whatever part of its purpose remains meaningful, or
+
+   b) under the GNU GPL, with none of the additional permissions of
+   this License applicable to that copy.
+
+  3. Object Code Incorporating Material from Library Header Files.
+
+  The object code form of an Application may incorporate material from
+a header file that is part of the Library.  You may convey such object
+code under terms of your choice, provided that, if the incorporated
+material is not limited to numerical parameters, data structure
+layouts and accessors, or small macros, inline functions and templates
+(ten or fewer lines in length), you do both of the following:
+
+   a) Give prominent notice with each copy of the object code that the
+   Library is used in it and that the Library and its use are
+   covered by this License.
+
+   b) Accompany the object code with a copy of the GNU GPL and this license
+   document.
+
+  4. Combined Works.
+
+  You may convey a Combined Work under terms of your choice that,
+taken together, effectively do not restrict modification of the
+portions of the Library contained in the Combined Work and reverse
+engineering for debugging such modifications, if you also do each of
+the following:
+
+   a) Give prominent notice with each copy of the Combined Work that
+   the Library is used in it and that the Library and its use are
+   covered by this License.
+
+   b) Accompany the Combined Work with a copy of the GNU GPL and this license
+   document.
+
+   c) For a Combined Work that displays copyright notices during
+   execution, include the copyright notice for the Library among
+   these notices, as well as a reference directing the user to the
+   copies of the GNU GPL and this license document.
+
+   d) Do one of the following:
+
+       0) Convey the Minimal Corresponding Source under the terms of this
+       License, and the Corresponding Application Code in a form
+       suitable for, and under terms that permit, the user to
+       recombine or relink the Application with a modified version of
+       the Linked Version to produce a modified Combined Work, in the
+       manner specified by section 6 of the GNU GPL for conveying
+       Corresponding Source.
+
+       1) Use a suitable shared library mechanism for linking with the
+       Library.  A suitable mechanism is one that (a) uses at run time
+       a copy of the Library already present on the user's computer
+       system, and (b) will operate properly with a modified version
+       of the Library that is interface-compatible with the Linked
+       Version.
+
+   e) Provide Installation Information, but only if you would otherwise
+   be required to provide such information under section 6 of the
+   GNU GPL, and only to the extent that such information is
+   necessary to install and execute a modified version of the
+   Combined Work produced by recombining or relinking the
+   Application with a modified version of the Linked Version. (If
+   you use option 4d0, the Installation Information must accompany
+   the Minimal Corresponding Source and Corresponding Application
+   Code. If you use option 4d1, you must provide the Installation
+   Information in the manner specified by section 6 of the GNU GPL
+   for conveying Corresponding Source.)
+
+  5. Combined Libraries.
+
+  You may place library facilities that are a work based on the
+Library side by side in a single library together with other library
+facilities that are not Applications and are not covered by this
+License, and convey such a combined library under terms of your
+choice, if you do both of the following:
+
+   a) Accompany the combined library with a copy of the same work based
+   on the Library, uncombined with any other library facilities,
+   conveyed under the terms of this License.
+
+   b) Give prominent notice with the combined library that part of it
+   is a work based on the Library, and explaining where to find the
+   accompanying uncombined form of the same work.
+
+  6. Revised Versions of the GNU Lesser General Public License.
+
+  The Free Software Foundation may publish revised and/or new versions
+of the GNU Lesser General Public License from time to time. Such new
+versions will be similar in spirit to the present version, but may
+differ in detail to address new problems or concerns.
+
+  Each version is given a distinguishing version number. If the
+Library as you received it specifies that a certain numbered version
+of the GNU Lesser General Public License &quot;or any later version&quot;
+applies to it, you have the option of following the terms and
+conditions either of that published version or of any later version
+published by the Free Software Foundation. If the Library as you
+received it does not specify a version number of the GNU Lesser
+General Public License, you may choose any version of the GNU Lesser
+General Public License ever published by the Free Software Foundation.
+
+  If the Library as you received it specifies that a proxy can decide
+whether future versions of the GNU Lesser General Public License shall
+apply, that proxy's public statement of acceptance of any version is
+permanent authorization for you to choose that version for the
+Library.</pre>
+                    </p>
+                    
+                    <a name="download">Download</a>
+                    <p>
+                        Latest revision from <a href="https://github.com/nikola/gruft">master</a>:
+                    </p> 
+                    <ul>
+                        <li><a href="http://goo.gl/TQP7H">Download .zip</a></li>
+                        <li><a href="http://goo.gl/1RNRD">Download .tar.gz</a></li>
+                    </ul>                            
+                </div>
+            </div>
+            
+            <div id="pad"></div>
+        </div>
+        
+        <div id="wrapper-bottom">
+            <div id="footer">Copyright 2011 Nikola Klaric. All rights reserved.</div>
+        </div>  
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script src="gh-pages-dist/gruft-common-0.1.0.js"></script>
+        <script src="gh-pages-dist/gruft-md5-0.1.0.js"></script>
+        <script src="gh-pages-dist/gruft-sha1-0.1.0.js"></script>
+        <script src="gh-pages-dist/gruft-sha256-0.1.0.js"></script>
+        <script src="gh-pages-dist/gruft-tiger192-0.1.0.js"></script>
+        <script>
+            $(document).ready(function (event) {
+                
+                $("#hash-input").change(function (event) {
+                    if (typeof md5 !== "undefined") {
+                        $("#hash-output-md5").text(md5.digest($(this).val()));
+                    }
+                    if (typeof sha1 !== "undefined") {
+                        $("#hash-output-sha1").text(sha1.digest($(this).val()));
+                    }
+                    if (typeof sha256 !== "undefined") {
+                        $("#hash-output-sha256").text(sha256.digest($(this).val()));
+                    }
+                    if (typeof tiger192 !== "undefined") {
+                        $("#hash-output-tiger192").text(tiger192.digest($(this).val()));
+                    }
+                });
+                
+                try {
+                    var md5 = new gruft.MD5();
+                    $("#hash-output-md5").text(md5.digest(""));
+                } catch (e) {
+                    $("#hash-output-md5").html(e);
+                }
+                
+                try {
+                    var sha1 = new gruft.SHA1();
+                    $("#hash-output-sha1").text(sha1.digest(""));
+                } catch (e) {
+                    $("#hash-output-sha1").html(e);
+                }
+                
+                try {
+                    var sha256 = new gruft.SHA256();
+                    $("#hash-output-sha256").text(sha256.digest(""));
+                } catch (e) {
+                    $("#hash-output-sha256").html(e);
+                }
+                
+                try {
+                    var tiger192 = new gruft.TIGER192();
+                    $("#hash-output-tiger192").text(tiger192.digest(""));
+                } catch (e) {
+                    $("#hash-output-tiger192").html(e);
+                }
+            });
+        </script>
+    </body>
+    
 </html>
