@@ -1,32 +1,28 @@
 /*!
- * gruft-common module Version 0.1.0-20110316 
- * Copyright 2011, Nikola Klaric
+ * gruft-common module Version 0.2.0
+ * Copyright 2009-2014, Nikola Klaric.
  *
  * https://github.com/nikola/gruft
  *
- * Licensed under the GNU Lesser General Public License (LGPL) Version 3.
- *
- * For the full license text see the enclosed LGPL-LICENSE.TXT, or go to:
- * https://github.com/nikola/jquery-zig/LGPL-LICENSE.txt
- *
- * If you are using this library for commercial purposes, please consider
- * purchasing a commercial license. Visit the project homepage for more
- * details.
+ * Licensed under the MIT License.
  */
 
 /**
  * @namespace gruft.*
  */
-var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
+;var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
 
 /**
  * Common library functions. 
  */
 gruft.common || ~function (undefined) {
 
+	/**
+	 * Housekeeping.
+	 */
     var __module__  = "gruft.common",
         __author__  = "Nikola Klaric",
-        __version__ = "0.1.0";
+        __version__ = "0.2.0";
 
 
     /**
@@ -41,10 +37,12 @@ gruft.common || ~function (undefined) {
       , "AssertionError" /* Raised when an assertion fails. */
     ];
 
+
     /**
      * Proxy instances of hash functions.
      */
     var _proxies = {};
+
 
     /**
      * Symbol tables for fast conversion.
@@ -63,9 +61,9 @@ gruft.common || ~function (undefined) {
     /**
      * Helper functions to determine the [[Class]] of an object.
      */
-    var _is = new function (proto, that) {
+    var _is = new function () {
         var _type = function (object, type) {
-            return object !== undefined && object !== null && proto.toString.call(object).slice(8, -1) === type;
+            return object != null && toString.call(object).slice(8, -1) === type;
         };
         return {
             Object: function (object) { return _type(object, "Object"); },
@@ -80,7 +78,7 @@ gruft.common || ~function (undefined) {
                 return false;
             },
             which: function (object) {
-                return (object !== undefined && object !== null) ? proto.toString.call(object).slice(8, -1) : "" + undefined;
+                return object != null ? toString.call(object).slice(8, -1) : "" + undefined;
             },
             instance: function (object) {
                 for (var a = 1, type; type = arguments[a]; ++a) {
@@ -91,7 +89,7 @@ gruft.common || ~function (undefined) {
                 return false;
             }
         };
-    }({}, this);
+    }();
 
 
     /**
@@ -161,14 +159,14 @@ gruft.common || ~function (undefined) {
      */
     var _setDefaultOptions = function (context, options) {
         if (!(_getOption(options, "format") in _dict("hex", "byteseq", "base64", "base64_safe"))) {
-            if (_is.instance(context, "MD5", "SHA1", "SHA256", "TIGER192")) {
+            if (_is.instance(context, "MD5", "SHA1", "SHA256", "Tiger192")) {
                 options.format = "hex";
             } else if (_is.instance(context, "AES256")) {
                 options.format = "base64";
             }
         }
         if (!(_getOption(options, "order") in _dict("little", "big"))) {
-            if (_is.instance(context, "MD5", "TIGER192", "AES256")) {
+            if (_is.instance(context, "MD5", "Tiger192", "AES256")) {
                 options.order = "little";
             } else if (_is.instance(context, "SHA1", "SHA256")) {
                 options.order = "big";
@@ -183,7 +181,7 @@ gruft.common || ~function (undefined) {
      * otherwise raise an exception with details of the discrepancies.
      * 
      * @exception {gruft.AssertionError}
-     *          Raised when obj1 and obj1 are not of the same type and value.
+     *          Raised when obj1 and obj1 are not of the same type and value(s).
      */
     var _failUnlessEqual = function (module, obj1, obj2, message, interpolation) {
         if (_is.Array(obj1) && _is.Array(obj2)) {
@@ -195,7 +193,7 @@ gruft.common || ~function (undefined) {
                 try {
                     _failUnlessEqual(null, obj1[index], obj2[index]);
                 } catch (e) {
-                    throw gruft.AssertionError(message + ", <Array obj1> and <Array obj2> are not equal at index %2: %3 !== %4",
+                	throw gruft.AssertionError(message + ", <Array obj1> and <Array obj2> are not equal at index %2: %3 !== %4",
                         [interpolation, index, obj1[index].valueOf(), obj2[index].valueOf()], module);
                 }
             }
@@ -272,7 +270,7 @@ gruft.common || ~function (undefined) {
         var _random = null;
         return function () {
             if (_random === null) {
-                _random = _transformBox([
+                _random = _transformBox("".concat(
                     "a_Y;TC%Tj;J^(5tL;*zByj&d';0qY5[WlBSK<X+('M=,uRdvk}SuCG-vK&_9&!ClX/_QF1>Lbja(VOvAIxX(6pi?ns$2FS$.wy!",
                     "*B~_1S=K%ds0{c5K>fw7i9TpT+?oX_]3Xk}Ub}IE;[%O;wUfcSC#IgP.7meZzf>XFb=*dcGh5^)b4mZPKgaVO7@HJu_]pb6=:bS",
                     "NGtg|pxZ@#!X-9G82k{a/~npX6<5MQ[[%LQ(1(!&7!'@@@,I1)>^F9e)'i9KZ&=TTRK$2K+5Y9-z><NWFrk&^oMVT{hRi%BKe{&",
@@ -286,7 +284,7 @@ gruft.common || ~function (undefined) {
                     "YYs?|y4+4Jm:;w(:{bZsjz+G]6:cPe?>on4%a5mk@k]1PtjQh[n1h1*^DE:GVOWr<c|^s)m<n._5N$ewRn4}69TbX!tU0fesL0q",
                     "v3?TT7m;B0-Bv8P4+O2SNv.(sWC+,hQ/{C,H+AR7B<ZZhp9<[l*wWoaDrTFGlh?8[:o+NVwrR3RBsHc(#v8Tlm@,@!}kc]je|rD",
                     "T@hVPsSQmK=}!5GUW~8D;VWo?P8'voX-09k@Nb#PV@){Xp:TTUXx,;0^)o+V?],<mpiP(9TR8~JruP6W"
-                    ].join(""), true);            
+                    ), true);            
             }
             return _random;         
         }
@@ -297,14 +295,14 @@ gruft.common || ~function (undefined) {
      * Return a test vector identified by the given handle.
      * 
      * @exception {gruft.ArgumentError}
-     *          Raised when none or an unsupported handle is supplied.
+     *          Raised when an unsupported handle or none is supplied.
      */
     var _getTestvector = new function () {
         var _vectors = {};
         return function (handle) {
             if (!handle) {
                 throw gruft.ArgumentError("Must supply a <String> as first argument to identify testvector");
-            } else if (!(handle in _dict("digest-base64", "digest-span-utf8", "digest-span-utf16", "digest-1024x0", "digest-random"))) {
+            } else if (!(handle in _dict("digest-base64", "digest-span-utf8", "digest-1024x0", "digest-random"))) {
                 throw gruft.ArgumentError("Testvector '%s' is not supported by this version of gruft.common", handle);
             } else {
                 if (!_vectors[handle]) {
@@ -318,17 +316,9 @@ gruft.common || ~function (undefined) {
                         0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x7c, 0x7d, 0x7e, 0x7f, 
                         0x80, 0x81, 0x82, 0x83, 0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff 
                         );
-                    _vectors["digest-span-utf16"] = sfc(
-                        0xffff, 0xfffe, 0xfffd, 0xfffc, 0xfffb, 0xfffa, 0xfff9, 0xfff8, 0x8003, 0x8002, 0x8001, 0x8000,  
-                        0x7fff, 0x7ffe, 0x7ffd, 0x7ffc, 0x0007, 0x0006, 0x0005, 0x0004, 0x0003, 0x0002, 0x0001, 0x0000 
-                        );
                     
                     /* 1024 % 3 == 1. */                    
-                    var vector = [], zero = sfc(0), c = 1023;
-                    do { 
-                        vector[c] = zero; 
-                    } while (c--);
-                    _vectors["digest-1024x0"] = vector.join("");
+                    _vectors["digest-1024x0"] = new Array(1025).join(sfc(0));
                    
                     /* 1031 % 3 == 2, 1031 is prime. */
                     _vectors["digest-random"] = _getRandomSample();
@@ -348,13 +338,12 @@ gruft.common || ~function (undefined) {
 
         /* Compute intermediate digest. */
         var type = this.__type__,
-            tuple = _proxies[type].__digest__.apply(_proxies[type], [options.message, options]);
+            tuple = _proxies[type].__digest__(options.message, options);
 
         /* Prepare byte-order conversion. */
         var factor = 1, offset = 0;
         if (options.order == "big") { 
-            factor = -1;
-            offset = 3; 
+            factor = -1, offset = 3; 
         }
         
         /* Convert intermediate digest tuple. */
@@ -372,7 +361,7 @@ gruft.common || ~function (undefined) {
         if (format == "hex") { 
             return buffer.join("");
         } else if (format in _dict("base64", "base64_safe")) {
-            var encoded = [], pos = 0, remainder = buffer.length % 3, b = buffer.length - remainder,  
+            var encoded = [], pos = 0, remainder = buffer.length % 3, b = buffer.length - remainder,
                 map = (format == "base64") ? _BASE64_MAP : _BASE64_MAP_SAFE;
             while (pos < b) {
                 encoded.push(map[buffer[pos] >> 2], map[(buffer[pos++] & 0x3) << 4 | buffer[pos] >> 4],
@@ -415,7 +404,7 @@ gruft.common || ~function (undefined) {
         reflect: function (context, implementation) {
             var module = implementation.prototype.__module__, id = /\w+$/.exec(module)[0];
     
-            if (!(id in _dict("MD5", "SHA1", "SHA256", "TIGER192"))) {
+            if (!(id in _dict("MD5", "SHA1", "SHA256", "Tiger192"))) {
                 throw gruft.ModuleError("<%s> is not supported by this version of gruft.common", module);
             } else if (!(context instanceof gruft[id])) {
                 throw gruft.InterfaceError("<%s> must be instanced with the 'new' operator", module);
@@ -438,7 +427,7 @@ gruft.common || ~function (undefined) {
                 context.__type__ = id;
     
                 /* Set up automagical output formatting. */
-                if (_is.instance(context, "MD5", "SHA1", "SHA256", "TIGER192")) {
+                if (_is.instance(context, "MD5", "SHA1", "SHA256", "Tiger192")) {
                     context.digest = _digest;
                     context.__digest__ = function () { 
                         return context.digest.apply(context, arguments); 
@@ -466,11 +455,7 @@ gruft.common || ~function (undefined) {
         bind: function (functor, context, module) {
             var slice = Array.prototype.slice;
             return function () {
-                return functor.apply(context, [module].concat(
-                    slice.apply(arguments, slice.call(
-                        arguments, 3))
-                    )
-                );
+                return functor.apply(context, [module].concat(slice.apply(arguments, slice.call(arguments, 3))));
             };
         },
 
@@ -516,7 +501,7 @@ gruft.common || ~function (undefined) {
 
 
         /**
-         * Clip a UTF-16 string to byte-sized characters.
+         * Clip a Javascript Unicode string to one byte-sized characters.
          */
         clipString: function (source) {
             if (source.length === 0) {
@@ -529,8 +514,32 @@ gruft.common || ~function (undefined) {
                 return String.fromCharCode.apply(String, output);
             }
         },
+        
+        
+        /**
+         * Return true if the source string contains characters that are not in ISO 8859-1.
+         */
+        containsWideCharacters: function (source) {
+    		return /[^\u0000-\u00ff]/.test(source);
+		},
 
 
+        /**
+         * Convert a Javascript Unicode (UCS-2) string to UTF-8.
+         */
+		toUtf8: function (source) {
+            return unescape(encodeURIComponent(source));
+		},
+		
+
+        /**
+         * Convert a UTF-8 sequence to Javascript Unicode (UCS-2).
+         */
+		toUnicode: function (source) {
+            return decodeURIComponent(escape(source));
+		},
+		
+		
         /**
          * Convert a base91-encoded string either to an array of 256 unsigned 32-bit words,
          * or to a string of byte-sized characters.
@@ -567,20 +576,18 @@ gruft.common || ~function (undefined) {
                     });                   
                 }
             }
-            error.message = error["@message"] = message;
+            error.message = message;
             var qualified = exception + ": " + message;
-            if (!!module) {
-                error.file = error.fileName = error["@file"] = module;
-                qualified += " [" + module + "]";
-            }
             error.description = error.toString = error.valueOf = function () { return qualified; };
             return error;
         };
     };
-    Exception.prototype = new Error;
+    
+    Exception.prototype = new Error();
+    Exception.prototype.constructor = Exception;
     var num = 0;
     for (var exception in _dict(_exceptions)) {
-        if (/^\w+Error$/.test(exception)) {
+        if (/^[A-Z][a-z]+Error$/.test(exception)) {
             gruft[exception] = new Exception(2 << num++ >> 1, exception);
         }
     }

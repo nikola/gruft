@@ -1,17 +1,10 @@
 /*!
- * gruft-md5 module Version 0.1.0-20110316
- * Copyright 2011, Nikola Klaric
+ * gruft-md5 module Version 0.2.0
+ * Copyright 2009-2014, Nikola Klaric.
  *
  * https://github.com/nikola/gruft
  *
- * Licensed under the GNU Lesser General Public License (LGPL) Version 3.
- *
- * For the full license text see the enclosed LGPL-LICENSE.TXT, or go to:
- * https://github.com/nikola/gruft/LGPL-LICENSE.txt
- *
- * If you are using this library for commercial purposes, please consider
- * purchasing a commercial license. Visit the project homepage for more
- * details.
+ * Licensed under the MIT License.
  *
  * The MD5 algorithm was designed by Ronald Rivest.
  */
@@ -19,7 +12,7 @@
 /**
  * @namespace gruft.*
  */
-var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
+;var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
 
 /**
  * Factory for producing safe instances.
@@ -39,7 +32,7 @@ gruft.__MD5__ = function() { }; gruft.__MD5__.prototype = {
 
     __module__  : "gruft.MD5",
     __author__  : "Nikola Klaric",
-    __version__ : "0.1.0",
+    __version__ : "0.2.0",
 
     /**
      * Perform self-test using discrete test vectors.
@@ -73,16 +66,6 @@ gruft.__MD5__ = function() { }; gruft.__MD5__.prototype = {
             digest(getTestvector("digest-span-utf8")),
             "34c4e74c0da5f130dd6f82a30853c996",
             error, "{digest-span-utf8}");
-
-        /* 24 chars between 0x0000 .. 0x8000 .. 0xffff. */
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")),
-            "d086073d4a685c6d9a10edf684d591bc",
-            error, "{digest-span-utf16} (implicitly clipped to byte-sized characters)");
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")), 
-            digest(clipString(getTestvector("digest-span-utf16"))),
-            error, "{digest-span-utf16} (explicitly clipped to byte-sized characters)");
 
         /* 1024 zeros. */
         failUnlessEqual(
@@ -135,8 +118,8 @@ gruft.__MD5__ = function() { }; gruft.__MD5__.prototype = {
             x[n] = 0;
         } while (n--);
         for (n = 0; n < bits; n += 8) {
-            /* Clip to byte-sized characters. */
-            x[n >> 5] |= (message.charCodeAt(n / 8) & 0xff) << n % 32;
+            /* Assumes that only 1 byte wide characters are used. */
+            x[n >> 5] |= message.charCodeAt(n / 8) << n % 32;
         }
 
         /* Apply MD5 padding (big-bit-endian, little-byte-endian, left-justified). */

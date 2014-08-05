@@ -1,17 +1,10 @@
 /*!
- * gruft-sha1 module Version 0.1.0-20110316
- * Copyright 2011, Nikola Klaric
+ * gruft-sha1 module Version 0.2.0
+ * Copyright 2009-2014, Nikola Klaric.
  *
  * https://github.com/nikola/gruft
  *
- * Licensed under the GNU Lesser General Public License (LGPL) Version 3.
- *
- * For the full license text see the enclosed LGPL-LICENSE.TXT, or go to:
- * https://github.com/nikola/gruft/LGPL-LICENSE.txt
- *
- * If you are using this library for commercial purposes, please consider
- * purchasing a commercial license. Visit the project homepage for more
- * details.
+ * Licensed under the MIT License.
  *
  * The SHA-1 algorithm was designed by the National Security Agency (NSA).
  */
@@ -19,7 +12,7 @@
 /**
  * @namespace gruft.*
  */
-var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
+;var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
 
 /**
  * Factory for producing safe instances.
@@ -39,7 +32,7 @@ gruft.__SHA1__ = function () { }; gruft.__SHA1__.prototype = {
 
     __module__  : "gruft.SHA1",  
     __author__  : "Nikola Klaric",
-    __version__ : "0.1.0",
+    __version__ : "0.2.0",
 
     /**
      * Perform self-test using discrete test vectors.
@@ -73,16 +66,6 @@ gruft.__SHA1__ = function () { }; gruft.__SHA1__.prototype = {
             digest(getTestvector("digest-span-utf8")),
             "ae2b8506e503b1e0ec3cfd276c68e018e7991301",
             error, "{digest-span-utf8}");
-
-        /* 24 chars between 0x0000 .. 0x8000 .. 0xffff. */
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")),
-            "a3a7c90044d847ad034f4c202a8a4da8cb2cd86d",
-            error, "{digest-span-utf16} (implicitly clipped to byte-sized characters)");
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")), 
-            digest(clipString(getTestvector("digest-span-utf16"))),
-            error, "{digest-span-utf16} (explicitly clipped to byte-sized characters)");
 
         /* 1024 zeros. */
         failUnlessEqual(
@@ -137,8 +120,8 @@ gruft.__SHA1__ = function () { }; gruft.__SHA1__.prototype = {
             x[n] = 0;
         } while (n--);
         for (n = 0; n < bits; n += 8) {
-            /* Clip to byte-sized characters. */
-            x[n >> 5] |= (message.charCodeAt(n / 8) & 0xff) << 24 - n % 32;
+            /* Assumes that only 1 byte wide characters are used. */
+            x[n >> 5] |= message.charCodeAt(n / 8) << 24 - n % 32;
         }
 
         /*  Apply MD5 padding (big-bit-endian, big-byte-endian, left-justified). */

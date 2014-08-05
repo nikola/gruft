@@ -1,32 +1,25 @@
 /*!
- * gruft-tiger192 module Version 0.1.0-20110316
- * Copyright 2011, Nikola Klaric
+ * gruft-tiger192 module Version 0.2.0
+ * Copyright 2009-2014, Nikola Klaric.
  *
  * https://github.com/nikola/gruft
  *
- * Licensed under the GNU Lesser General Public License (LGPL) Version 3.
+ * Licensed under the MIT License.
  *
- * For the full license text see the enclosed LGPL-LICENSE.TXT, or go to:
- * https://github.com/nikola/gruft/LGPL-LICENSE.txt
- *
- * If you are using this library for commercial purposes, please consider
- * purchasing a commercial license. Visit the project homepage for more
- * details.
- *
- * The TIGER/192 algorithm was designed by Ross Anderson and Eli Biham.  
+ * The Tiger/192 algorithm was designed by Ross Anderson and Eli Biham.  
  */
 
 /**
  * @namespace gruft.*
  */
-var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
+;var gruft; if (typeof gruft !== typeof {}) { gruft = {}; }
 
 /**
  * Factory for producing safe instances.
  */
-gruft.TIGER192 = function () {
-    if (typeof gruft.common === typeof gruft && typeof gruft.common.reflect === typeof gruft.TIGER192) {
-        gruft.common.reflect(this, gruft.__TIGER192__, arguments);
+gruft.Tiger192 = function () {
+    if (typeof gruft.common === typeof gruft && typeof gruft.common.reflect === typeof gruft.Tiger192) {
+        gruft.common.reflect(this, gruft.__Tiger192__, arguments);
     } else {
         throw "Module <gruft.common> not found";    
     }
@@ -35,14 +28,14 @@ gruft.TIGER192 = function () {
 /**
  * Implementation of TIGER/192 digest function.
  */
-gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
+gruft.__Tiger192__ = function () { }; gruft.__Tiger192__.prototype = {
 
-    __module__  : "gruft.TIGER192",
+    __module__  : "gruft.Tiger192",
     __author__  : "Nikola Klaric",
-    __version__ : "0.1.0",
+    __version__ : "0.2.0",
 
     /**
-     * Initialize this instance of <gruft.__TIGER192__> and set up internal objects.
+     * Initialize this instance of <gruft.__Tiger192__> and set up internal objects.
      */
     __init__: function () { 
         /* Transform pre-computed S-boxes from base 91 to base 256. */
@@ -85,16 +78,6 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
             digest(getTestvector("digest-span-utf8")),
             "8f8c57f5e8bfcfa5094002aa8a208ed8e0a285611ebdde4b",
             error, "{digest-span-utf8}");
-
-        /* 24 chars between 0x0000 .. 0x8000 .. 0xffff. */
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")),
-            "6f0bc486b5f8bf15a10141863629bd149d60a0fb57895f3f",
-            error, "{digest-span-utf16} (implicitly clipped to byte-sized characters)");
-        failUnlessEqual(
-            digest(getTestvector("digest-span-utf16")), 
-            digest(clipString(getTestvector("digest-span-utf16"))),
-            error, "{digest-span-utf16} (explicitly clipped to byte-sized characters)");
 
         /* 1024 zeros. */
         failUnlessEqual(
@@ -156,7 +139,7 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
     },
 
     /**
-     * Compress message to TIGER/192 digest.
+     * Compress message to Tiger/192 digest.
      * 
      * @param {String} message 
      *          The string to compress. 
@@ -164,7 +147,7 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
      *          Destination format options.
      * 
      * @return {Array} 
-     *          TIGER/192 digest as a 6-tuple of 32-bit words. 
+     *          Tiger/192 digest as a 6-tuple of 32-bit words. 
      */
     __digest__: function (message, options) {
         var len = message.length, bits = len * 8, words = (len + 1) % 64,
@@ -186,38 +169,23 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
             s0_1 = 0x01234567, s0_0 = 0x89abcdef, s1_1 = 0xfedcba98, s1_0 = 0x76543210, s2_1 = 0xf096a5b4, s2_0 = 0xc3b2e187,
             t0_0, t0_1, t1_0, t1_1, t2_0, t2_1, arg, p = 0;
         while (p < padded) {
-            x0_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x0_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x1_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x1_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x2_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x2_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x3_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x3_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x4_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x4_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x5_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x5_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x6_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x6_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x7_0 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
-            x7_1 = message.charCodeAt(p++) & 0xff | (message.charCodeAt(p++) & 0xff) << 8
-                | (message.charCodeAt(p++) & 0xff) << 16 | (message.charCodeAt(p++) & 0xff) << 24;
+        	/* Assumes that only 1 byte wide characters are used. */
+            x0_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x0_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x1_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x1_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x2_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x2_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x3_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x3_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x4_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x4_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x5_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x5_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x6_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x6_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x7_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            x7_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
 
             t0_0 = s0_0; t0_1 = s0_1;
             t1_0 = s1_0; t1_1 = s1_1;
@@ -731,7 +699,7 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         return (options.order == "little") ? [s0_0, s0_1, s1_0, s1_1, s2_0, s2_1] : [s0_1, s0_0, s1_1, s1_0, s2_1, s2_0];
     },
 
-    _T1_0: [
+    _T1_0: "".concat(
         ".iA}5<1U._y'8%lU&,U~gM{L[_UAgTPXyZ{EKz_Qf}r?]S%co_N<@xk4UBl{e=ldG9%f.~!s90(MJ2x@DAQszL%4/{jfT1h5+zmj4$&{*$HdzK+,u=<aib<;&.UX5~",
         "MVDv5X(tj%m:RFN-10.ddPx:^Z7<.CKne7R%N->d*b&17(tt1<hDReSM1rg?W;%mokk+vX=YcXV=%Z&*U9FFGH>uT^qrobgcKE^4ds7T{k~}npASSr]CDNGTbM=BYy",
         ",,,WR<ik<(H?hs^[Xb#h!?RAT5;6|pJD:aYGc59:55L[rcW.tBM1/lpQ#^1uzKhYz^pVSB*En+6X1bZYR~trfI;Adv2i^!+9xDGb/J/+[W%YD^GBRB!ItU*r['CFJ,",
@@ -742,9 +710,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "5k|F-'ms.QT{ay*1NEti5pH_-j@@^|nw$^gRE#}8m[>H+UflV!5c>?zBzSlQLrlbJme/2zlQ^C4Q*4^?E<J,_X{{,_s[sJfaMQe6P&>Gb9w7@{R?u,.h+Jq)EzM(&f",
         "C(7r'^rqSjm-lCv^g}AsB5N(7WsZ?_#h/Tjo%;<F3J%V:eAJ|zuU>s#JK6Q)Xk[BBV+3|^A.Vrx%?.rxo4SSHzhCL*2g<14Xn?:}jet/?Gsi-#nHLcszyXEs;5.qaM",
         "zYO]>d6H|LNP:XG1wTG+AO1ub}4k?;;WTw@oaD!n-fq=,BoVVoM+tsV'<|tKm/6'c}XpJ({Er.5/x)t*9y[U,#tC*J*M30v_;R5azl[)nNs-K@>X&RLtQwPEDVKh7A"    
-        ].join(""),
+        )
 
-    _T1_1: [
+  , _T1_1: "".concat(
         "RxB8KC]Mb;Unwf=zvEJ=I'u<s@4.^m&R_w-%.F!d^nC8iTAX-x{:H2lb7c:h7^?FZ!A#)XjNnwsR#Z<'Fc9zl.Onx^PXM!Dvqq9vPKX.#L-T(B'.(]S'-li[?(LJ]z",
         "ajdBt.%qD#,9gPFf(h*pAgYY1HxSV4KBD0s]sp('7P*MpIik9|zjG?rLo|c$,]:=#I_&p=QQKR*SL&X3.C(.rKAlhyUL-fdIq^:Q4e[-S!JU#H5w?{g7)=NVst^X|i",
         "C_wDQ@rx=Wy8#TfF&ub,gS&!(xP8TSTE9M3&2GKL_!h;ZNkc(^K_l7Rhui'g~dkJL}?d~2fl2mDPAY&=M/;GM_*qd0/;2VfOq~pDJdoSB7[v>sr>2Sv0_.vru^,l(g",
@@ -755,9 +723,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "J]f6l}Up^JeK7N$_wj_(ELZSR+d+88:J>x:Q$J@AS_hS:I|wM!l!e#r$~(19]4K/$LB4dnNe<y5e6=D(Pun^?v9Taz=bGaLw8M_jfhd~iK8Cf^2<XPSU(y*Me:st!H",
         "Ao8%8.dESMH>%^$f#y<h3$-'Y##r0aHMGG,X$dj'!8rJpdC[qI;K;8uKs4r|>e#]a]i#kZFPV0+mo?VYgJL3LAct5dcEA?U.isM!oyjT@N+#Am&C#a]R9^RKd=?U->",
         "VG77Tp0nk)}?@[.>havg_e)jKc0}XS3#s[FF'.?]F5R;8v~wdv5,Z#@?,m)Uz$&1X68U(Q3jb%/[95}/QMF;:Y5B_?VKPI]#K<0WVm7<EG#0:~l{keqs7C%1B^E)1C"
-        ].join(""),
+        )
 
-    _T2_0: [ 
+  , _T2_0: "".concat(
         "nD9k[Q)v:fq6ut_:V}BFTO92U}te8MzxQ'}j:bBPOB]#&i(skLHrAbf}wnVZS1$VD%o7?c,TbQ5o#X;EA4F?~Edbeto..dh,-XbbEw12E[XXP5efVn[n_Dk5^t.<R_",
         "C=w1Bj~'#][Dzk@tn]]Un@%Ghm[xzFqM7$%L%]c6!hS>oP>yfm;d*g?dlDl*xW}=y]5'TrB%lND7kX0iMPB{SfafeJal.]FyyLh06*z.C.3RKYr@4<DixdT1UWm6hw",
         "B=+]Ye!Nx!yWs_.!PU=#~8@/^s&$LuY:;{NYE~Fx#)f9sn~%~,+INM)*rkxpuxH3]@r{}S^WB<8ubW5{+=+ou,LEy[qv*r2y9n*Fwkq$T6iW,S/z9E1K8pu14ngK:^",
@@ -768,9 +736,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "]9L,lFf^%vnhW{Mw0}uI2R|C}Au7Wqx@Yd3W<m2#$z<)+59w7vyb5k@eF#4VE~bY;bif<47UAm0vaywY4kB9d4IBAV8n6GhR5h67a8*XMzuiE}06]5#?,msk9Vtclw",
         "-]YJ]%z}-(f=A5PEbd!o4]qx#j98NS2=h<]<&/yk.,V+@z=nEPZqRSXJ$rVNdwXWTfh;]0V?,Y&7=4|!P4AD44Z6cxo]tTRUgUha$h6[j',H:vN$W,IN#0vdfYk,{2",
         "vr&De$@],hneYO76XnaL53aXt'U~nr/Yd</Hv7!h*#W~SS%5>?dk)p%M0|{n$)*NQS_gu.fy#zhbNxU(S(L4i<B5P%EHO>$1cwAVYv(FCe_S-Y}$iNET]n8BbBkJ)D"
-        ].join(""),
+        )
 
-    _T2_1: [ 
+  , _T2_1: "".concat(
         "j'877ajG{<*tP+aQKTU:Wg)zVo#7O?u6:%7h;{Hm^?#r63:]!N6&R>&_}YQ?*&f62c{G;cm?;os?ezgh{OESaS4x#{NuzNmssh_E5kPX&,st$'_/nI!pW7RLxF}B6=",
         "xvK%wZaxR|.nn+lHRI#?}]QN7V|r>*#*^N%xt{GZz:lD~W}Usw<).Zv6g//_7.(Ny&b~{t!]%g3/:x&D'~z]SsqlfdwZNG]IXP~N;Tgx:;3/vP'PR)W>hJ5#GSi-H0",
         "p#C?:lzbErASp4/8EsX9WcbBQ~0kS(ncPpRJ{q8H#PanKU,rB&z,*9=+VoHA2C[HSy9c+l<vm?OhP^t^d<gx6*5vMYO%n~b=3Un$CQ.2RQ.o:/)kcw<60u'@0JN4$l",
@@ -781,9 +749,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "HWI>3rla,kzvJO*F$~$<Ie_tIS2n,oBK,Zmt}jHOc'>|wjGdU^!9(3quoOE%L&14A4jAppE!A%ZL#$-C+zU{^?z7S]we8f$U^i]P]$o!o%.C<>PNWWS>#O~FRH]He?",
         "Rphar=F7-&qd1K[SkYhZ~1wqq*DP+,-T1{Da2ruX[,2!Uclv|zqodtt3W(]}&<fuUuZN5(x#tLJJZ2Rupxs&dF+Z)kj1[=#P}aFSrv1v#N!6jUtfVm<~Q9UPZgL1/0",
         "{<p*v%1TmrGB.$hCPZ5mS|u[9JSPoX5Z)<9<n[F(jwcAK*33^,LcVsBJIC2a,Udm0%*|w&dp1/uf)G>/tU]1Es*w:+Ur+y?4pR(Yp/k0GQ7ZqBHn9s%66%h*j1X;GD"
-        ].join(""),
+        )
 
-    _T3_0: [ 
+  , _T3_0: "".concat(
         "O3)phBrO#$34$2OjD[y#CqlWDSx)R4~z>$-21+YrS']@BB}{DBXQzn.eR*dHFe%?Hxr;7{tG3@}}ybL6MuUX|SZo9QdM|@.gi#qT4)(F5wG^oGI;9Wh:j!7*47t%Wf",
         "7tWmmr)B@mt)5,t@2EIhw5Uv}Qs>Kp)l8Y7zGJ}U8XTdd2B,fQ&MhGnDx,&XtR{rwwVy&,m<G|NqUiQwE9Q7frJRO^4}1]GuA_c1p(T3aQJTL[i8jkEdnGRWh(i)F:",
         "PGX5N?WX*J<Dri<TP~D8%<xoQ&:(jB#I6F?I+g5FNL7w^6c'?X>2J$l%zNi87!1<'&Ee/gM416,xCU|T$b1VSqhe-8gxrN?XnJ&9+|PA&t+7|&gSA1xmzZIT{!/Dv0",
@@ -794,9 +762,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "]31~Pdsbxw%qeP98%91(g&tR7<vd[W.OIdQU!v3D}iAWH^.jx@q+6XZVW$WT(bS_#}jZ=E65&tekc<j(:iT!bWPqY<=cx^q013%lEe^vTc%NWX|?IyEy>'M=%[5g2F",
         "w[umJ5@dYJa51Iqeqnhjg/9a3l*ANY+qs?Su^6Y9E$FNL+R.KF;duRdlltescqRc>xXx22gdj@?l>04sfa~BS[-PCw.nuLn7{)(oaZ9cGPMHa*b:wxA#'6O,tD@Fk*",
         "h{IOb[d&1uUn=~;,8xyWq^JQ!Szd5z-ZRnrScep)Ab-[C[Tt9GySrQsE.!aNTG1#B{,Q/*xn-'6!ambmWfv>!'-Q6jgP$o.rxHLiM6dK(WGF|9gUzN2R%Vv,33U&PR"
-        ].join(""),
+        )
 
-    _T3_1: [ 
+  , _T3_1: "".concat(
         "ZiEO]xI~)5AJPHN@,<n,[^85H]}ufN6?=CvK/2oPgFIW5W)DCvj)P7=8dsXQ'/B1]Dm8~$Za@F3UnkQS'c5r2Hq<rnUg:cz(W4A*P||^G<t;@FrcNK@c8z/~i2wz*e",
         "qCcL1s(N0CZeX;W6X)C3T}p>?u=I<n&'qd@u9d@5C^z[ptT?}Lr4zbB3M,t?my(f#kTN=1,>R;+~j[4iYpfv'uP2G(u+oRjJ%rIwljp%',gc)Jd;CvI)IZr%>lrBf_",
         "P^9cYaaHvJsxnd0=T-!f9=d0|k:ksjT7u=:)'H]Xk%{$08XR(|h^m9^9/VHQ$.>rSJuGN/<jIB9%DZb!;{^sijF$tOd}:Gv3;{^GzKLiJHuC>s{|DS5zRwd_<wN{d=",
@@ -807,9 +775,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "c*U]l%5{ckcv*Hbs7bv2a]PY]hB*cST>%J]MFH>Qycn,pVdC!SW028n'X![HO1(VOb-<bBiJ7s%*eVROPaaKSh1.8M<hT.B{'rd6r9Z7w1(YJ<J>6p|5<O.]3)e*(3",
         ">FCVHNFAxdlg$(rg-*{uA1_j.mg9yD(CFQ_XA=S|fKz|hHXQ,N5PPxi#D*hep&dn>r1<8CP0c8d#)Zki'<@l}/ReNj)LznR][X[l2=r7+H~zot)aO/b$Ca+DvWXT<q",
         "'sowZni63aAr2R6m?*@#k4^r4Jn]5@FtJm3}~[g=;2smfo%4V4^5q0q!6#BRzblwbFiuO.f;_~<3bP*l0.j+7.(T71w*Az|f[}I<D)08Z{j(47*Zr[Z/Nq%VUrUU.E"
-        ].join(""),
+        )
 
-     _T4_0: [ 
+   , _T4_0: "".concat(
         "$?mxj]>#}rrWiw+;XaZ$1h{?Z5WY##wD,#-~L|%jJka!^x8gH|d#L|mh{,mJ7)N3OB4TetTFl)~Oib)ZEEfvG+M&^I)GYn>F:e8zPDSaFcG$~Jj>D2DTT,R~|c5_qN",
         "iIfSevF}(FSwpW2v1tiA/qrwZ}Z&C.{5m./p!-$LAt17_nL^27yi8a&0O?fj(CDT*H)H.]g(I.y~h|UEw(l?=b)]Mg[>@s~R*JX^4_&X%wxI%+M}Cw)}u,mS*[!@c6",
         "cl*M|Z/_f_Y&ksdDLed/:~J2LI9IzzvjN)W9:7FI!Ga+%.r0c8/xiFFKO,4o<H${n%BB(Ii,@N]4Yrro?YL<{vip+wW)7Ujucmff&$H/!2np]5L&m>9BSh9$)<+8S0",
@@ -820,9 +788,9 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "(p5'gFZAb$#!Gwc;=a[V-i2G?r}qIVh_(%0<)^yBMLlqf2H;=@03=6<&<iIjci]>>m#5w/_Z0ae.i&UIpH%}9Q-6Dww,ltEFh'}*GzoMXLNmPw[{VVXMmYs]=47~Z9",
         "E[LL?SLxjtwUO=AR]eW9dXZ3tf6D)g=-zh~0?y3EBd5C{z>|H6_kqx8i*09jGvs(m%(FC!<:I]Ad@pBmi*&+0d!&vfMKx&lX7ZnFe'x_l.STSc'7yci,1s,/EX]s0D",
         "xWZF95ovCab2Q{jFd&)93Qn&sQ@$U9-ChrH|=jjjGh|#)PTSl'*XrRqZRe#v(k(&M*9dC|O,i59N45;|U=]WfS5,A&n}[7MW3JB)AD11XovDcKUC+9kfDhJolOZ<cA"
-        ].join(""),
+        )
 
-    _T4_1: [ 
+  , _T4_1: "".concat(
         "qB,)HdBm5x^HSVwfCd|1gH{gP(P8Tck|S0e0xVlUf_aE[.P#9*Z#m3)_NrOD'f^D-Q,~]JuxP$!zc<Vf_Ly1of0ZKi-xdr.~6~pe><S}ldevI5D|<Y&>K}JA^K5wd]",
         "7Bo2[8>)k^~+ZRSbDy2)oxi&N]6*GEG>FkL~j0:$GegJI|tx*v!e<yU:)%x~6V}m*56mEJw?Mt4noL/+]~#9iF63Yo1(a;0~RB^p4c6<I_XxM!L<C9ef&{_P%.$32J",
         "LX!Or7dnEZy_z3GJ%~^[=ZSjLP8#u+O)d?DES0?j,(*P@Z%<[I8lVE13ac?,iQBB(4e&d1Q8-l'U+,Hi>F4^ovnmNWf27ziOjy9_A5tqw!C2zq=$ruBe7X?u:C?N=j",
@@ -833,6 +801,6 @@ gruft.__TIGER192__ = function () { }; gruft.__TIGER192__.prototype = {
         "3=Kn4%[-v59ky(npTn{c.q_)x'JS2__Xg:[#2z92@+8,N#)+JZ-2!=jTR??H6*m$Xpc^}]AN#%i^N*5UV5b2dRT5X9|EuL2LKJ9kjs0!?M%{{VPckd')V~+C^d4'xe",
         "Z=?;UF4epwdX5Ms9VR&gAhfX(OZhZ+ccS_7(F+IW7.Z3bnS$pd4K_@YNY[U/h>TPCfj#Ah{|fo,YII6N8lwu~X&wPgIQca>Y'BG2pYMwcGe+Wj8)juO9=5pDleuW)c",
         "P}cb+A[{x@auo~Xh?+vu]<U/<m]mq:lpgp;qO>U8P:2?cfv]vL9Zvf[ho{fjdyls0h=EX5-1PLQv?DR1bE^X$6+)w^g']y%F{EO!$UkS_rk<vlrpma?JdGwLPQf4NC"
-        ].join("")
+        )
 
 };

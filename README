@@ -5,11 +5,10 @@ The gruft library is a fast implementation of several cryptographic hash functio
  TIGER/192
 
 Author: Nikola Klaric
-Latest release version: 0.1.0-20110316
-License: GNU Lesser General Public License (LGPL) Version 3
+Latest release version: 0.2.0
+License: MIT License
 
 Should work with any ECMA-262-compliant JavaScript engine (including Node.js).
 
 More information:
- http://nikola.github.com/gruft/
- 
+ http://nikola.github.io/gruft/
