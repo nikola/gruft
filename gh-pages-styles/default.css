@@ -40,7 +40,7 @@ body {
     height: 48px;
     z-index: 1000;
     
-    background-color: #c0b080;
+    background-color: #3d9970;
     opacity: 0.9;
     }
 
@@ -122,11 +122,11 @@ body {
 a[name] {
     display: block;
     font: 18px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    border-bottom: 1px solid #c4b4a4;
+    border-bottom: 1px solid #606060;
     padding-bottom: 8px;
     margin-bottom: 4px;
     margin-top: 32px;
-    color: #a09060;
+    color: #303030;
     }
 
 a[name]:before {
@@ -137,7 +137,7 @@ a[name]:before {
 }
 
 p a[href], p a[href]:link, p a[href]:visited {
-    border-bottom: 1px dotted #716f6d;
+    border-bottom: 1px dotted #606060;
     text-decoration: none;
     color: #444;
     }
@@ -173,8 +173,8 @@ ul {
     
 li a, li a[href]:link, li a[href]:visited {
     font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    color: #704030;
-    border-bottom: 1px dotted #716f6d;
+    color: #707070;
+    border-bottom: 1px dotted #707070;
     text-decoration: none;
     }        
 
@@ -205,7 +205,7 @@ dd {
     width: 508px;
     height: 128px;
     font: 13px/24px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    border: 1px solid #948474;
+    border: 1px solid #808080;
     background-color: #f4f4f4;
     color: #444;
     resize: none;
@@ -224,13 +224,14 @@ dd {
     
     }
 
-.hash-output {
-    display: block;
+.hash-name {
+    display: inline-block;
+    width: 80px;
     }
 
-.hash-output span {
+.hash-output {
     display: inline-block;
     float: right;
     width: 400px;
     font-size: 10px;
-    }    
+    }
