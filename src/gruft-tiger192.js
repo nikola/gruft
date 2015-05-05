@@ -60,7 +60,7 @@ gruft.__Tiger192__ = function () { }; gruft.__Tiger192__.prototype = {
         }
 
         var digest = this.__digest__, gc = gruft.common, error = "TIGER/192 digest of test vector %s is erroneous",
-            getTestvector = gc.getTestvector, clipString = gc.clipString,
+            getTestvector = gc.getTestvector,
             failUnlessEqual = gc.bind(gc.failUnlessEqual, gc, "gruft-tiger192.js");
 
         /* Basic. See also: http://www.cs.technion.ac.il/~biham/Reports/Tiger/test-vectors-nessie-format.dat */
@@ -109,7 +109,6 @@ gruft.__Tiger192__ = function () { }; gruft.__Tiger192__.prototype = {
             error, "'ABCDEFGHIJKLMNOPQRS' (formatted to base64)");
         failUnlessEqual(
             digest({message:"ABCDEFGHIJKLMNOPQRS", format:"base64_safe"}),
-            // "OB9rgDWlSnfwgn-BHSsvCQ1QAk*QsUu2",
             "OB9rgDWlSnfwgn_BHSsvCQ1QAk-QsUu2",
             error, "'ABCDEFGHIJKLMNOPQRS' (formatted to base64, URL-safe)");
 
@@ -134,7 +133,14 @@ gruft.__Tiger192__ = function () { }; gruft.__Tiger192__.prototype = {
             digest(vector, {order:"big"}),
             "467db80863ebce488df1cd1261655de957896565975f9197",
             error, "'" + vector + "' (big-endian)");
-        
+
+        /* see https://github.com/nikola/gruft/issues/1 */
+        vector = String.fromCharCode.apply(null, [0x6B, 0xE5, 0x19, 0x2D, 0xD4, 0xB5, 0xA6, 0xA8, 0xB7, 0x47, 0x3A, 0xED, 0x70, 0xD0, 0x8B, 0x1F, 0x4E, 0x54, 0x12, 0x48, 0xE3, 0x8C, 0x1A, 0xD2]);
+        failUnlessEqual(
+            digest(vector, {order:"little"}),
+            "388dde1e382044439ac9594a39ecac15cacef709ec562f9b",
+            error, "'" + vector + "' (heliofh)");
+
         return true;
     },
 
@@ -150,42 +156,35 @@ gruft.__Tiger192__ = function () { }; gruft.__Tiger192__.prototype = {
      *          Tiger/192 digest as a 6-tuple of 32-bit words. 
      */
     __digest__: function (message, options) {
-        var len = message.length, bits = len * 8, words = (len + 1) % 64,
-            zeros = ((!len || len % 64) ? (!!words) ? (64 - words < 8) ?  64 + 1 - words : 1 - words : 1 : 0) + 64 - 8 - 1,
-            padded = len + zeros + 8 + 1;
+        var bits = message.length << 3, chunks = 16 + ((bits + 64 >>> 9) << 4) - 1,
+            x = [], n = 16 + chunks - 1 - 1;
+        do {
+            x[n] = 0;
+        } while (n--);
+        for (n = 0; n < bits; n += 8) {
+            /* Assume that only 1 byte wide characters are used. */
+            x[n >> 5] |= message.charCodeAt(n / 8) << n % 32;
+        }
 
         /* Apply MD4 padding (little-bit-endian, little-byte-endian, right-justified). */
-        var sfc = String.fromCharCode, padding = [sfc(1)], z = -1;
-        while (++z < zeros) { 
-            padding.push(sfc(0)); 
-        }
-        padding.push(sfc(bits & 0xff, bits >> 8 & 0xff, bits >> 16 & 0xff, bits >> 24 & 0xff, 0, 0, 0, 0));
-        message += padding.join("");
+        x[bits >> 5] |= 1 << (bits % 32);
+        x[chunks - 1] = bits;
 
-        /* Compress message. */
         var x0_0, x0_1, x1_0, x1_1, x2_0, x2_1, x3_0, x3_1, x4_0, x4_1, x5_0, x5_1, x6_0, x6_1, x7_0, x7_1,
             T1_0 = this._T1_0, T1_1 = this._T1_1, T2_0 = this._T2_0, T2_1 = this._T2_1,
             T3_0 = this._T3_0, T3_1 = this._T3_1, T4_0 = this._T4_0, T4_1 = this._T4_1,
             s0_1 = 0x01234567, s0_0 = 0x89abcdef, s1_1 = 0xfedcba98, s1_0 = 0x76543210, s2_1 = 0xf096a5b4, s2_0 = 0xc3b2e187,
-            t0_0, t0_1, t1_0, t1_1, t2_0, t2_1, arg, p = 0;
-        while (p < padded) {
-        	/* Assumes that only 1 byte wide characters are used. */
-            x0_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x0_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x1_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x1_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x2_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x2_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x3_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x3_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x4_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x4_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x5_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x5_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x6_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x6_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x7_0 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
-            x7_1 = message.charCodeAt(p++) | message.charCodeAt(p++) << 8 | message.charCodeAt(p++) << 16 | message.charCodeAt(p++) << 24;
+            t0_0, t0_1, t1_0, t1_1, t2_0, t2_1, arg, u = 0;
+
+        while (u < chunks) {
+            x0_0 = x[u++]; x0_1 = x[u++];
+            x1_0 = x[u++]; x1_1 = x[u++];
+            x2_0 = x[u++]; x2_1 = x[u++];
+            x3_0 = x[u++]; x3_1 = x[u++];
+            x4_0 = x[u++]; x4_1 = x[u++];
+            x5_0 = x[u++]; x5_1 = x[u++];
+            x6_0 = x[u++]; x6_1 = x[u++];
+            x7_0 = x[u++]; x7_1 = x[u++];
 
             t0_0 = s0_0; t0_1 = s0_1;
             t1_0 = s1_0; t1_1 = s1_1;
